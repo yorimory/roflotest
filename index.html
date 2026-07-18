@@ -233,12 +233,12 @@
 <div class="container">
     <header>
         <h1>Интерактивный МЕГА-ТЕСТ</h1>
-        <div class="subtitle">Основы алгоритмизации и программирования на C++ (112 вопросов)</div>
+        <div class="subtitle">Основы алгоритмизации и программирования на C++ (205 вопросов)</div>
     </header>
 
     <div id="result-card">
         <h2>Ваш результат:</h2>
-        <div class="score"><span id="scoreVal">0</span> / 112</div>
+        <div class="score"><span id="scoreVal">0</span> / 205</div>
         <p id="scoreMsg" style="font-size: 1.2em; color: var(--text-light);"></p>
         <button class="submit-btn" style="margin-top:20px; padding: 15px;" onclick="window.scrollTo({top:0, behavior:'smooth'})">Посмотреть ошибки</button>
     </div>
@@ -249,6 +249,8 @@
     </form>
 </div>
 
+<script src="part2.js"></script>
+<script src="part3.js"></script>
 <script>
     // Массив с данными вопросов
     const quizData = [
@@ -385,7 +387,8 @@
     let score = 0;
 
     // Генерируем HTML
-    quizData.forEach((item) => {
+    const allQuizData = quizData.concat(typeof quizDataPart2 !== "undefined" ? quizDataPart2 : [], typeof quizDataPart3 !== "undefined" ? quizDataPart3 : []);
+    allQuizData.forEach((item) => {
         if (item.section) {
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'section-card';
