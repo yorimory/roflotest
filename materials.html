@@ -141,6 +141,33 @@
     </div>
 
     <div class="accordion">
+        <div class="accordion-header">📄 Арифметические основы компьютеров</div>
+        <div class="accordion-content">
+            <h3>Двоичная арифметика</h3>
+            <p>Компьютер выполняет все математические операции в двоичной системе. Правила сложения очень просты:</p>
+            <ul>
+                <li><span class="code-inline">0 + 0 = 0</span></li>
+                <li><span class="code-inline">0 + 1 = 1</span></li>
+                <li><span class="code-inline">1 + 1 = 10</span> (0 пишем, 1 переносится в следующий разряд)</li>
+                <li><span class="code-inline">1 + 1 + 1 = 11</span> (1 пишем, 1 переносится)</li>
+            </ul>
+            <h3>Логические побитовые операции</h3>
+            <p>Процессор умеет выполнять операции над отдельными битами (0 - Ложь, 1 - Истина):</p>
+            <ul>
+                <li><strong>Логическое И (AND / &amp;)</strong>: результат 1, только если оба бита равны 1.</li>
+                <li><strong>Логическое ИЛИ (OR / |)</strong>: результат 1, если хотя бы один бит равен 1.</li>
+                <li><strong>Исключающее ИЛИ (XOR / ^)</strong>: результат 1, если биты разные.</li>
+                <li><strong>Логическое НЕ (NOT / ~)</strong>: инверсия (0 становится 1, а 1 становится 0).</li>
+            </ul>
+            <div class="highlight-box">
+                <strong>Побитовые сдвиги:</strong><br>
+                Сдвиг влево (<span class="code-inline">&lt;&lt;</span>) — это быстрое умножение на 2.<br>
+                Сдвиг вправо (<span class="code-inline">&gt;&gt;</span>) — это быстрое целочисленное деление на 2.
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion">
         <div class="accordion-header">📄 Коды чисел (Компьютерная арифметика)</div>
         <div class="accordion-content">
             <h3>Проблема вычитания в процессоре</h3>
@@ -176,6 +203,31 @@
                 <li><strong>Модульность</strong>: выделение повторяющихся участков кода в подпрограммы (функции и процедуры). Каждый модуль должен быть независимым черным ящиком (иметь 1 вход и 1 выход).</li>
             </ul>
             <p>Этот подход резко упростил чтение, тестирование и командную разработку сложных программ.</p>
+        </div>
+    </div>
+
+    <div class="accordion">
+        <div class="accordion-header">📄 Быстрый экскурс в язык (C++)</div>
+        <div class="accordion-content">
+            <h3>Основы синтаксиса и типы данных</h3>
+            <p>C++ — строго типизированный язык. Каждая переменная должна иметь тип:</p>
+            <ul>
+                <li><span class="code-inline">int</span> — целые числа (например, 5, -10).</li>
+                <li><span class="code-inline">float / double</span> — числа с плавающей точкой (дробные).</li>
+                <li><span class="code-inline">char</span> — одиночный символ в одинарных кавычках (например, 'A').</li>
+                <li><span class="code-inline">bool</span> — логический тип (true или false).</li>
+            </ul>
+            <h3>Ввод и вывод</h3>
+            <p>Для взаимодействия с консолью используется библиотека <span class="code-inline">&lt;iostream&gt;</span>:</p>
+            <ul>
+                <li><span class="code-inline">std::cin &gt;&gt; x;</span> — чтение значения в переменную x с клавиатуры.</li>
+                <li><span class="code-inline">std::cout &lt;&lt; "Текст";</span> — вывод текста или значения переменной на экран.</li>
+            </ul>
+            <div class="highlight-box">
+                <strong>Передача параметров в функции:</strong><br>
+                1. <strong>По значению</strong> (<span class="code-inline">void f(int x)</span>): передается копия. Изменения внутри функции не влияют на оригинал.<br>
+                2. <strong>По ссылке</strong> (<span class="code-inline">void f(int&amp; x)</span>): передается сам оригинал переменной. Функция может изменять исходные данные. Используется для ускорения работы с большими объектами.
+            </div>
         </div>
     </div>
 
