@@ -377,11 +377,12 @@
         { q: "112. В C++ функция, которая не является членом класса, но имеет доступ к его private членам, называется:", o: ["(а) Враждебной", "(б) Внешней", "(в) Дружественной (friend)", "(г) Статической", "(д) Виртуальной"], a: 2 }
     ];
 
+    
     const quizContainer = document.getElementById('quiz-container');
     const progressBar = document.getElementById('progressBar');
     
     let totalQuestions = 0;
-    let questionIndex = 0;
+    let score = 0;
 
     // Генерируем HTML
     quizData.forEach((item) => {
@@ -397,12 +398,14 @@
             const qDiv = document.createElement('div');
             qDiv.className = 'question-container';
             qDiv.id = `question-${totalQuestions}`;
+            qDiv.dataset.correct = item.a;
+            qDiv.dataset.answered = 'false';
             
             let optionsHtml = '';
             item.o.forEach((opt, idx) => {
                 optionsHtml += `
-                    <label class="option-label" onclick="selectOption(this, 'q${totalQuestions}')">
-                        <input type="radio" name="q${totalQuestions}" value="${idx}">
+                    <label class="option-label">
+                        <input type="radio" name="q${totalQuestions}" value="${idx}" onchange="checkSingleAnswer(this, ${totalQuestions})">
                         <div class="custom-radio"></div>
                         <span class="option-text">${opt}</span>
                     </label>
@@ -415,69 +418,51 @@
             `;
             
             currentSection.appendChild(qDiv);
-            
-            // Сохраняем правильный ответ в DOM для быстрой проверки
-            qDiv.dataset.correct = item.a;
         }
     });
 
-    // Обработка выбора ответа (для стилизации)
-    function selectOption(label, groupName) {
-        // Убираем класс selected у всех радиобатонов в этой группе
-        const labels = label.parentElement.querySelectorAll('.option-label');
-        labels.forEach(l => l.classList.remove('selected'));
-        // Добавляем класс выбранному
-        label.classList.add('selected');
+    function checkSingleAnswer(radio, qId) {
+        const qDiv = document.getElementById('question-' + qId);
+        if (qDiv.dataset.answered === 'true') return;
+        qDiv.dataset.answered = 'true';
+
+        const correctAns = parseInt(qDiv.dataset.correct);
+        const selectedVal = parseInt(radio.value);
+        const selectedLabel = radio.parentElement;
+
+        // Отключаем все инпуты в этом вопросе
+        const labels = qDiv.querySelectorAll('.option-label');
+        labels.forEach(l => {
+            l.querySelector('input').disabled = true;
+            l.style.pointerEvents = 'none';
+        });
+
+        if (selectedVal === correctAns) {
+            score++;
+            selectedLabel.classList.add('correct');
+        } else {
+            selectedLabel.classList.add('incorrect');
+            // Подсвечиваем правильный
+            const correctLabel = qDiv.querySelector(`input[value="${correctAns}"]`).parentElement;
+            correctLabel.classList.add('correct');
+        }
 
         updateProgress();
+        
+        // Автоматически показываем результат если все отвечены
+        const answered = document.querySelectorAll('.question-container[data-answered="true"]').length;
+        if (answered === totalQuestions) {
+            checkAnswers();
+        }
     }
 
     function updateProgress() {
-        const answered = document.querySelectorAll('input[type="radio"]:checked').length;
+        const answered = document.querySelectorAll('.question-container[data-answered="true"]').length;
         const percentage = (answered / totalQuestions) * 100;
         progressBar.style.width = percentage + '%';
     }
 
     function checkAnswers() {
-        let score = 0;
-        let answered = 0;
-
-        for (let i = 1; i <= totalQuestions; i++) {
-            const qDiv = document.getElementById(`question-${i}`);
-            const correctAns = parseInt(qDiv.dataset.correct);
-            const selectedRadio = document.querySelector(`input[name="q${i}"]:checked`);
-            
-            // Сбрасываем старые стили
-            const labels = qDiv.querySelectorAll('.option-label');
-            labels.forEach(l => {
-                l.classList.remove('correct', 'incorrect');
-                // Отключаем клики после проверки
-                l.querySelector('input').disabled = true;
-                l.style.pointerEvents = 'none';
-            });
-
-            if (selectedRadio) {
-                answered++;
-                const selectedVal = parseInt(selectedRadio.value);
-                const selectedLabel = selectedRadio.parentElement;
-                
-                if (selectedVal === correctAns) {
-                    score++;
-                    selectedLabel.classList.add('correct');
-                } else {
-                    selectedLabel.classList.add('incorrect');
-                    // Подсвечиваем правильный
-                    const correctLabel = qDiv.querySelector(`input[value="${correctAns}"]`).parentElement;
-                    correctLabel.classList.add('correct');
-                }
-            } else {
-                // Если не ответили
-                const correctLabel = qDiv.querySelector(`input[value="${correctAns}"]`).parentElement;
-                correctLabel.classList.add('correct');
-            }
-        }
-
-        // Показываем результат
         const resultCard = document.getElementById('result-card');
         document.getElementById('scoreVal').innerText = score;
         
