@@ -233,12 +233,12 @@
 <div class="container">
     <header>
         <h1>Интерактивный МЕГА-ТЕСТ</h1>
-        <div class="subtitle">Основы алгоритмизации и программирования на C++ (205 вопросов)</div>
+        <div class="subtitle">Основы алгоритмизации и программирования на C++ (300 вопросов)</div>
     </header>
 
     <div id="result-card">
         <h2>Ваш результат:</h2>
-        <div class="score"><span id="scoreVal">0</span> / 205</div>
+        <div class="score"><span id="scoreVal">0</span> / 300</div>
         <p id="scoreMsg" style="font-size: 1.2em; color: var(--text-light);"></p>
         <button class="submit-btn" style="margin-top:20px; padding: 15px;" onclick="window.scrollTo({top:0, behavior:'smooth'})">Посмотреть ошибки</button>
     </div>
@@ -251,6 +251,13 @@
 
 <script src="part2.js"></script>
 <script src="part3.js"></script>
+
+<script src="part4.js"></script>
+<script src="part5.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+</script>
 <script>
     // Массив с данными вопросов
     const quizData = [
@@ -387,7 +394,7 @@
     let score = 0;
 
     // Генерируем HTML
-    const allQuizData = quizData.concat(typeof quizDataPart2 !== "undefined" ? quizDataPart2 : [], typeof quizDataPart3 !== "undefined" ? quizDataPart3 : []);
+    const allQuizData = quizData.concat(typeof quizDataPart2 !== "undefined" ? quizDataPart2 : [], typeof quizDataPart3 !== "undefined" ? quizDataPart3 : [], typeof quizDataPart4 !== "undefined" ? quizDataPart4 : [], typeof quizDataPart5 !== "undefined" ? quizDataPart5 : []);
     allQuizData.forEach((item) => {
         if (item.section) {
             const sectionDiv = document.createElement('div');
